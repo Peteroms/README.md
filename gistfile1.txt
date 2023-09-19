@@ -1,0 +1,28 @@
+Step 1: Create an S3 Bucket for the Website.
+Choose a unique name for the bucket, which should match your domain or subdomain (e.g., "example.com" or "www.example.com"). Note that bucket names must be globally unique.
+
+Step 2: Upload your website files, and configure static web hosting on the "Properties" tab.
+Set the index document and error document if needed. Click save.
+
+Step 3: Obtain an SSL Certificate from a Cerificate Authority(CA) or use AWS Certificate Manager.
+If you're using ACM to obtain a certificate, you'll need to validate ownership of the domain. ACM provides multiple validation methods, such as email validation, DNS validation, or HTTP validation. Choose the DNS validation method as it's convenient for Route 53.
+
+Step 4: Configure CloudFront to Use the SSL Certificate. Create a cloudfront distribution. 
+Origin Domain Name: Select your S3 bucket from the dropdown list.
+Viewer Protocol Policy: Choose "Redirect HTTP to HTTPS."
+Default Root Object: Enter the name of your index file (e.g., index.html).
+
+Step 5: In the "General" tab, select "Custom SSL Certificate" and choose the SSL certificate you obtained or created in ACM. Save your changes and wait for the SSL certificate to deploy.
+
+Step 6: Set Up DNS with Route 53. Go to the Route 53 service in the AWS Management Console. Click on "Hosted zones" and select your domain or create a new one.
+Create a new record set for your website (e.g., "www" or your root domain) and configure it as an alias for your CloudFront distribution.
+Save your changes.
+
+Step 7: Update Domain Registrar Settings.
+If your domain is registered with a domain registrar other than AWS Route 53, you'll need to update your DNS settings at your registrar to point to your Route 53 name servers.
+
+Step 8: Test and verify.
+Once DNS propagation is complete, you can access your website using your domain (e.g., http://www.example.com).
+
+CONCLUSION
+The static website is now hosted on S3, distributed globally through CloudFront, and routed using Route 53. Any changes you make to your website content in the S3 bucket will automatically be propagated through CloudFront to all edge locations.
